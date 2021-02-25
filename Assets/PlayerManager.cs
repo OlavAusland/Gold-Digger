@@ -6,9 +6,12 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class PlayerManager : MonoBehaviour
 {
+    public GameObject particle;
     public GameManager gm => GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+    public DataManager dm => GameObject.FindGameObjectWithTag("DataManager").GetComponent<DataManager>();
     public LineRenderer lr => GetComponent<LineRenderer>();
     public KeyCode action = KeyCode.DownArrow;
+    public KeyCode bombAction = KeyCode.UpArrow;
 
     public float angle = 180;
     public float rotationSpeed = 1.5f;
@@ -21,17 +24,32 @@ public class PlayerManager : MonoBehaviour
 
     public uint currency = 0;
 
+    private GameObject draggingItem;
+
     public void Update()
     {
         if (Input.GetKeyDown(action)) { Shoot(); }
         Rotate();
         DrawHook();
+        ThrowBomb();
     }
 
     public void OnDrawGizmosSelected()
     {
-        Gizmos.DrawRay(transform.position, RotateVector2D(transform.position, angle));
+        Gizmos.DrawRay(transform.position,  RotateVector2D(transform.position, angle));
         Gizmos.color = Color.blue;
+    }
+
+    public void ThrowBomb()
+    {
+        if (!Input.GetKeyDown(bombAction) || draggingItem == null) { return; }
+        if(dm.inventory.bombs <= 0) { return; }
+        dm.inventory.bombs--;
+        GameObject GO = Instantiate(particle, draggingItem.transform.position, Quaternion.identity);
+        Destroy(draggingItem);
+        draggingItem = null;
+        dragging = false;
+        Destroy(GO, 2);
     }
     
     private void Rotate()
@@ -66,6 +84,7 @@ public class PlayerManager : MonoBehaviour
         {
             hit.transform.GetComponent<ItemManager>().Move(this);
             dragging = true;
+            draggingItem = hit.transform.gameObject;
         }
     }
 

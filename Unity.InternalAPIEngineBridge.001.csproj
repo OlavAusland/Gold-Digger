@@ -11,7 +11,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{B4440900-9F17-7162-A81F-D22DAB5C1F46}</ProjectGuid>
+    <ProjectGuid>{80920602-67F4-683A-A1D0-6E9A67FC29E4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Unity.InternalAPIEngineBridge.001</AssemblyName>
@@ -607,11 +607,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="UnityEditor.UI.csproj">
-      <Project>{FD068862-E735-ABEA-B47F-BFDAE8AAC1AB}</Project>
+      <Project>{23A0D93A-C6B8-94B5-FDBA-51BD2B497E78}</Project>
       <Name>UnityEditor.UI</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEngine.UI.csproj">
-      <Project>{6933EC2E-BFC0-7662-99BC-C260230B7CDA}</Project>
+      <Project>{E04108F6-7355-97CD-9508-92D85ED1DD9D}</Project>
       <Name>UnityEngine.UI</Name>
     </ProjectReference>
   </ItemGroup>

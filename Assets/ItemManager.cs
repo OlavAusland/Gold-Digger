@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ItemManager : MonoBehaviour
 {
@@ -18,7 +16,7 @@ public class ItemManager : MonoBehaviour
     public void Update()
     {
         if (!move) { return; }
-        transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * item.speed);
+        transform.position = Vector3.MoveTowards(transform.position, target, (Time.deltaTime * item.speed * pm.gm.speedMultiplier) / transform.localScale.x);
         CheckDistance();
         DrawHook();
     }
@@ -28,7 +26,7 @@ public class ItemManager : MonoBehaviour
         if (Vector3.Distance(target, transform.position) <= 0)
         {
             pm.dragging = false;
-            pm.gm.currency += item.value;
+            pm.dm.currency += item.value * pm.gm.moneyMultiplier;
             Destroy(transform.gameObject);
         }
     }

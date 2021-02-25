@@ -30,6 +30,8 @@ public class LevelLayout
 
 public class GameManager : MonoBehaviour
 {
+    DataManager dataManager => GameObject.FindGameObjectWithTag("DataManager").GetComponent<DataManager>();
+
     public Vector3[] viewBoundary = new Vector3[4];
     public Vector3[] groundBoundary = new Vector3[4];
     public readonly Vector3[] boundary = new Vector3[4] { new Vector3(0, 1, 0), new Vector3(1, 1, 0), new Vector3(0, 0, 0), new Vector3(1, 0, 0) };
@@ -40,7 +42,7 @@ public class GameManager : MonoBehaviour
     public GameObject itemPrefab => Resources.Load<GameObject>("Item");
 
     public List<GameObject> instances;
-
+    [Space(20)]
     public uint spacing = 10;
     public uint iterations;
 
@@ -51,6 +53,11 @@ public class GameManager : MonoBehaviour
     [Space(20)]
     public Text timeText;
     public float time = 60;
+    [Space(20)]
+    public uint moneyMultiplier = 1;
+    public float speedMultiplier = 1;
+    [Space(20)]
+    public GameObject menu;
 
     private void Start()
     {
@@ -61,9 +68,23 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        currencyText.text = currency.ToString();
-        timeText.text = time.ToString("00.0");
+        if (Input.GetKeyDown(KeyCode.Escape)){ ToggleMenu(); }
+        currency = dataManager.currency;
+        currencyText.text = currency.ToString("0$");
+        timeText.text = time.ToString("0.0S");
         time -= Time.deltaTime;
+
+        //CHANGE
+        if(time <= 0) { Application.LoadLevel(2); }
+
+    }
+
+    public void ToggleMenu()
+    {
+        menu.SetActive(!menu.gameObject.active);
+
+        if (menu.gameObject.active) { Time.timeScale = 0; }
+        else { Time.timeScale = 1; }
     }
 
     public void OnDrawGizmos()
