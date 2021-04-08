@@ -1,0 +1,177 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4812321286748342493
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4812321286748342495}
+  - component: {fileID: 4812321286748342494}
+  - component: {fileID: 4812321286748342480}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: GameController
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4812321286748342495
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4812321286748342493}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 4.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4812321286748342494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4812321286748342493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6863251330a94414f8c6e373c76151ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effects:
+  - name: Bomb
+    effect: {fileID: 8300000, guid: 1cb90cefb32aadf4b9efffc1f260eb76, type: 3}
+  - name: Coin
+    effect: {fileID: 8300000, guid: fe52c00912bd40e41aebde78aaf069b7, type: 3}
+  - name: Power Up
+    effect: {fileID: 8300000, guid: d49bcd215808a9e4095699b5679ad11a, type: 3}
+  viewBoundary:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  groundBoundary:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  levelLayout:
+  - name: Level 1
+    items:
+    - name: Rock
+      value: 5
+      sprite: {fileID: 21300000, guid: cb2ab11c1c8f45049b89a198657181d6, type: 3}
+      count: 5
+      minSize: 0.5
+      maxSize: 2
+      speed: 1
+    - name: Gold
+      value: 50
+      sprite: {fileID: 21300000, guid: 632ee67e46ebac04c95622d9f8e84179, type: 3}
+      count: 10
+      minSize: 1
+      maxSize: 1.5
+      speed: 1
+    - name: Emerald
+      value: 50
+      sprite: {fileID: 21300000, guid: 90fc05ca29df97d4a935722238e4cfa6, type: 3}
+      count: 10
+      minSize: 0.5
+      maxSize: 1
+      speed: 1
+    - name: Pearl
+      value: 50
+      sprite: {fileID: 21300000, guid: 4304250d1686979419ce65d9316b305a, type: 3}
+      count: 5
+      minSize: 1
+      maxSize: 1
+      speed: 1
+    - name: Chest
+      value: 300
+      sprite: {fileID: 21300000, guid: b6cb143cbec9fe046a4a400c6e6db75e, type: 3}
+      count: 1
+      minSize: 1.5
+      maxSize: 1.5
+      speed: 1
+    levelMoney: 650
+  - name: Level 1
+    items:
+    - name: Rock
+      value: 5
+      sprite: {fileID: 21300000, guid: cb2ab11c1c8f45049b89a198657181d6, type: 3}
+      count: 5
+      minSize: 0.5
+      maxSize: 2
+      speed: 1
+    - name: Gold
+      value: 50
+      sprite: {fileID: 21300000, guid: 632ee67e46ebac04c95622d9f8e84179, type: 3}
+      count: 10
+      minSize: 1
+      maxSize: 1.5
+      speed: 1
+    - name: Emerald
+      value: 50
+      sprite: {fileID: 21300000, guid: 90fc05ca29df97d4a935722238e4cfa6, type: 3}
+      count: 10
+      minSize: 0.5
+      maxSize: 1
+      speed: 1
+    - name: Pearl
+      value: 50
+      sprite: {fileID: 21300000, guid: 4304250d1686979419ce65d9316b305a, type: 3}
+      count: 5
+      minSize: 1
+      maxSize: 1
+      speed: 1
+    - name: Chest
+      value: 300
+      sprite: {fileID: 21300000, guid: b6cb143cbec9fe046a4a400c6e6db75e, type: 3}
+      count: 1
+      minSize: 1.5
+      maxSize: 1.5
+      speed: 1
+    - name: Money Bag
+      value: 300
+      sprite: {fileID: 21300000, guid: 90604d80ada54084a91801bd2e8087a9, type: 3}
+      count: 1
+      minSize: 1
+      maxSize: 1
+      speed: 1
+    levelMoney: 1200
+  instances: []
+  spacing: 10
+  iterations: 10000
+  ground: {fileID: 0}
+  currencyText: {fileID: 0}
+  currency: 0
+  timeText: {fileID: 0}
+  time: 15
+  desiredAmountText: {fileID: 0}
+  desiredAmount: 0
+  moneyMultiplier: 1
+  speedMultiplier: 1
+  menu: {fileID: 0}
+--- !u!114 &4812321286748342480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4812321286748342493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ddf6608567e663488810a460bf5467e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  texts:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

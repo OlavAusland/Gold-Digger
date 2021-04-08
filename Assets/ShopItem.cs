@@ -37,5 +37,7 @@ public class ShopItem : MonoBehaviour
             default:
                 break;
         }
+
+        Destroy(this.gameObject);
     }
 }

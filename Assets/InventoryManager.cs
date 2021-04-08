@@ -25,6 +25,7 @@ public class InventoryManager : MonoBehaviour
     public void MarketPotion(int time)
     {
         if(dm.inventory.marketPotions <= 0) { return; }
+        PlaySound();
         gm.moneyMultiplier *= 2;
         dm.inventory.marketPotions--;
         StartCoroutine(RevertMultiplier(time, 0));
@@ -33,13 +34,20 @@ public class InventoryManager : MonoBehaviour
     public void TimePotion(int time)    
     {
         if (dm.inventory.timePotions <= 0) { return; }
+        PlaySound();
         gm.time += time;
         dm.inventory.timePotions--;
+    }
+
+    public void PlaySound()
+    {
+        AudioSource.PlayClipAtPoint(gm.effects[2].effect, Vector3.zero);
     }
 
     public void SpeedPotion(float speed)
     {
         if (dm.inventory.speedPotions <= 0) { return; }
+        PlaySound();
         gm.speedMultiplier *= speed;
         dm.inventory.speedPotions--;
         StartCoroutine(RevertMultiplier(25, 1));

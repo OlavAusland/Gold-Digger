@@ -6,14 +6,16 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class PlayerManager : MonoBehaviour
 {
-    public GameObject particle;
+    AudioSource audioSource => GetComponent<AudioSource>();
+    public GameObject particle => Resources.Load<GameObject>("Explosion");
     public GameManager gm => GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
     public DataManager dm => GameObject.FindGameObjectWithTag("DataManager").GetComponent<DataManager>();
     public LineRenderer lr => GetComponent<LineRenderer>();
     public KeyCode action = KeyCode.DownArrow;
     public KeyCode bombAction = KeyCode.UpArrow;
 
-    public float angle = 180;
+    private float angle = 180;
+
     public float rotationSpeed = 1.5f;
 
     static float maximum = 270;
@@ -25,6 +27,8 @@ public class PlayerManager : MonoBehaviour
     public uint currency = 0;
 
     private GameObject draggingItem;
+
+    private void Awake() { angle = Random.Range(270, 90); }
 
     public void Update()
     {
@@ -45,6 +49,7 @@ public class PlayerManager : MonoBehaviour
         if (!Input.GetKeyDown(bombAction) || draggingItem == null) { return; }
         if(dm.inventory.bombs <= 0) { return; }
         dm.inventory.bombs--;
+        AudioSource.PlayClipAtPoint(gm.effects[0].effect, draggingItem.transform.position);
         GameObject GO = Instantiate(particle, draggingItem.transform.position, Quaternion.identity);
         Destroy(draggingItem);
         draggingItem = null;
@@ -68,24 +73,22 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    private Vector3 RotateVector2D(Vector3 oldDirection, float angle)
+    private Vector3 RotateVector2D(Vector3 vector, float angle)
     {
-        float newX = Mathf.Cos(angle * Mathf.Deg2Rad) * (oldDirection.x) - Mathf.Sin(angle * Mathf.Deg2Rad) * (oldDirection.y);
-        float newY = Mathf.Sin(angle * Mathf.Deg2Rad) * (oldDirection.x) + Mathf.Cos(angle * Mathf.Deg2Rad) * (oldDirection.y);
-        float newZ = oldDirection.z;
-        return new Vector3(newX, newY, newZ);
+        return Quaternion.Euler(angle * Vector3.forward) * new Vector3(0, vector.y, vector.z).normalized;
     }
 
     private void Shoot()
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, RotateVector2D(transform.position, angle));
-
-        if(hit.collider != null) 
+        if (hit.collider != null) 
         {
             hit.transform.GetComponent<ItemManager>().Move(this);
             dragging = true;
             draggingItem = hit.transform.gameObject;
         }
+
+        
     }
 
     private void DrawHook()

@@ -8,6 +8,7 @@ public class Menu : MonoBehaviour
     public void LoadLevel(int index)
     {
         Application.LoadLevel(index);
+        Time.timeScale = 1;
     }
 
     public void ExitGame()

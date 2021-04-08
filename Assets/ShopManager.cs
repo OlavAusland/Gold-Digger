@@ -11,6 +11,7 @@ public class ShopManager : MonoBehaviour
     private void Update(){ text.text = dm.currency.ToString("0$"); }
     public void LoadLevel(int index)
     {
+        dm.level++;
         Application.LoadLevel(index);
     }
 }

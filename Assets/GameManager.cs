@@ -5,6 +5,13 @@ using UnityEngine;
 using System;
 
 [Serializable]
+public class SoundEffect
+{
+    public string name;
+    public AudioClip effect;
+}
+
+[Serializable]
 public class Item
 {
     public string name;
@@ -26,10 +33,14 @@ public class LevelLayout
 {
     public string name = "Level";
     public List<Item> items;
+    [Space(20)]
+    public uint levelMoney; // CHANGE NAME
+    public float time;
 }
 
 public class GameManager : MonoBehaviour
 {
+    public List<SoundEffect> effects;
     DataManager dataManager => GameObject.FindGameObjectWithTag("DataManager").GetComponent<DataManager>();
 
     public Vector3[] viewBoundary = new Vector3[4];
@@ -37,8 +48,9 @@ public class GameManager : MonoBehaviour
     public readonly Vector3[] boundary = new Vector3[4] { new Vector3(0, 1, 0), new Vector3(1, 1, 0), new Vector3(0, 0, 0), new Vector3(1, 0, 0) };
 
     public List<LevelLayout> levelLayout;
-    private int level = 0;
+    private uint level = 0;
 
+    GameObject kart => Resources.Load<GameObject>("Kart");
     public GameObject itemPrefab => Resources.Load<GameObject>("Item");
 
     public List<GameObject> instances;
@@ -54,6 +66,9 @@ public class GameManager : MonoBehaviour
     public Text timeText;
     public float time = 60;
     [Space(20)]
+    public Text desiredAmountText;
+    public float desiredAmount = 0;
+    [Space(20)]
     public uint moneyMultiplier = 1;
     public float speedMultiplier = 1;
     [Space(20)]
@@ -61,22 +76,41 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        LoadLevelLayout();
         ResizeBoundaries();
         SpawnItems();
         ResizeGround(groundBoundary[0], groundBoundary[3]);
+        StartCoroutine(KartBehaviour(20, 60, 0.1f, false));
+        time = levelLayout[(int)level].time;                                                
+    }
+
+    private void LoadLevelLayout()
+    {
+        level = dataManager.level;
+        if (level >= levelLayout.Count) { level = (uint)levelLayout.Count - 1; }
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape)){ ToggleMenu(); }
         currency = dataManager.currency;
+        desiredAmount = levelLayout[(int)level].levelMoney;
+        desiredAmountText.text = desiredAmount.ToString("0$");
         currencyText.text = currency.ToString("0$");
         timeText.text = time.ToString("0.0S");
         time -= Time.deltaTime;
 
         //CHANGE
-        if(time <= 0) { Application.LoadLevel(2); }
+        if(time <= 0) {
+            if (PassedLevel()) { Application.LoadLevel(2); }
+            else { dataManager.currency = 0; Application.LoadLevel(3); }
+        }
+    }
 
+    public bool PassedLevel()
+    {
+        if (dataManager.currency >= levelLayout[(int)level].levelMoney) { return true; }
+        return false;
     }
 
     public void ToggleMenu()
@@ -106,7 +140,7 @@ public class GameManager : MonoBehaviour
 
     private void SpawnItems()
     {
-        List<Item> levelItems = levelLayout[0].items;
+        List<Item> levelItems = levelLayout[(int)level].items;
 
         foreach(Item item in levelItems)
         {
@@ -167,6 +201,19 @@ public class GameManager : MonoBehaviour
         scale.y = (pointA.y - pointB.y) / spriteSize;
         ground.transform.position = new Vector3(0, (pointA.y + pointB.y) / 2, 1);
         ground.transform.localScale = scale;
+    }
+
+    private IEnumerator KartBehaviour(int min, int max, float speed, bool moveLeft)
+    {
+        Vector3 position = new Vector3();
+        if (moveLeft) { position = new Vector3(groundBoundary[1].x + 0.5f, 2, 0); }
+        else { position = new Vector3(groundBoundary[0].x - 0.5f, 2, 0); }
+        
+        GameObject @object = Instantiate(kart, position, Quaternion.identity);
+        @object.GetComponent<Kart>().moveLeft = moveLeft;
+        @object.GetComponent<Kart>().gm = this;
+        yield return new WaitForSeconds(UnityEngine.Random.Range(min, max));
+        StartCoroutine(KartBehaviour(min, max, speed, !moveLeft));
     }
 }
 

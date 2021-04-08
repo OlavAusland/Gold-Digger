@@ -27,7 +27,9 @@ public class ItemManager : MonoBehaviour
         {
             pm.dragging = false;
             pm.dm.currency += item.value * pm.gm.moneyMultiplier;
+            AudioSource.PlayClipAtPoint(pm.gm.effects[1].effect, pm.transform.position);
             Destroy(transform.gameObject);
+            pm.gm.time += 5; // CHANGE VALUE FOR BALANCING
         }
     }
 

@@ -17,6 +17,7 @@ public class DataManager : MonoBehaviour
     public Inventory inventory;
     [Space(20)]
     public uint currency = 0;
+    public uint level = 0;
 
     private void Awake()
     {
